@@ -128,9 +128,14 @@ public class DismissibleWidget : Gtk.Widget, Adw.Swipeable {
     }
 
     protected override void snapshot (Gtk.Snapshot snapshot) {
-        snapshot.push_opacity (1 - swipe_progress.abs ());
+        bool fade = swipe_progress != 0;
+        if (fade) {
+            snapshot.push_opacity (1 - swipe_progress.abs ());
+        }
         snapshot_child (child, snapshot);
-        snapshot.pop ();
+        if (fade) {
+            snapshot.pop ();
+        }
     }
 
     /*
